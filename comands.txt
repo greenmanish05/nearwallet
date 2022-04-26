@@ -1,0 +1,18 @@
+near state lagotrixa.testnet
+near state wallet.lagotrixa.testnet
+
+near call wallet.lagotrixa.testnet get_money '{"_key": "WrongKey"}' --accountId lagotrixa.testnet
+near call wallet.lagotrixa.testnet get_money '{"_key": "CorrectKey"}' --accountId lagotrixa.testnet
+
+near call wallet.lagotrixa.testnet get_record '{"_account_id": "lagotrixa.testnet"}' --accountId lagotrixa.testnet
+near call wallet.lagotrixa.testnet get_hash --accountId lagotrixa.testnet
+
+near delete wallet.lagotrixa.testnet lagotrixa.testnet
+near create-account wallet.lagotrixa.testnet --masterAccount lagotrixa.testnet --initialBalance 5
+
+sha256("CorrectKey") = 68d475f01277f8cce11f4f6ed4993f53e0426263393e6a6df8ef02ac9d2872d1
+
+
+near deploy wallet.lagotrixa.testnet --wasmFile out/wallet.wasm \
+    --initFunction 'wallet' \
+    --initArgs '{"_key": "68d475f01277f8cce11f4f6ed4993f53e0426263393e6a6df8ef02ac9d2872d1"}'
